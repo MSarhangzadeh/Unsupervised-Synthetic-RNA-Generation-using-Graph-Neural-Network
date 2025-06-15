@@ -1,0 +1,14 @@
+data/ 
+dataset/
+
+
+pycache/ *.pyc *.pyo *.pyd .Python *.ipynb_checkpoints
+
+
+.venv/ env/ *.env .vscode/ .idea/
+
+
+*.ipynb_checkpoints/
+
+
+*.log *.tmp *.bak
