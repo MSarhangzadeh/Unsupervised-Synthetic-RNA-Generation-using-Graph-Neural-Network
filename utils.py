@@ -3,10 +3,12 @@ import pandas as pd
 import numpy as np
 
 import torch
+import torch.nn.functional as F
 from torch_geometric.data import Data,  InMemoryDataset
 
 import networkx as nx
 import matplotlib.pyplot as plt
+
 
 
 def load_and_filter_dataset(file_path, save_filtered=False, output_path="data/filtered_piRNAs.csv"):
@@ -104,6 +106,41 @@ def create_graph_from_sequence(sequence, max_len=32):
 
 
 
+def summarize_dataset(dataset, name):
+    '''
+    Give useful information about dataset
+    '''
+    print(f"\n Summary for {name} set:")
+    print(f"Total samples: {len(dataset)}")
+
+    lengths = []
+    label_counts = {}
+
+    num_nodes_list = []
+    num_edges_list = []
+    node_feat_shapes = set()
+    label_shapes = set()
+
+    for data in dataset:
+        lengths.append(data.seq_len if hasattr(data, 'seq_len') else data.num_nodes)
+        
+        label = data.y.item() if isinstance(data.y, torch.Tensor) and data.y.numel() == 1 else str(data.y)
+        label_counts[label] = label_counts.get(label, 0) + 1
+        
+        num_nodes_list.append(data.num_nodes)
+        num_edges_list.append(data.edge_index.size(1))
+        node_feat_shapes.add(tuple(data.x.size()))
+        label_shapes.add(tuple(data.y.size()) if isinstance(data.y, torch.Tensor) else 'N/A')
+
+    print(f"Sequence length: mean = {np.mean(lengths):.2f}, std = {np.std(lengths):.2f}, min = {min(lengths)}, max = {max(lengths)}")
+    print(f"Label distribution: {label_counts}")
+    print(f"Average nodes per graph: {np.mean(num_nodes_list):.2f}")
+    print(f"Average edges per graph: {np.mean(num_edges_list):.2f}")
+    print(f"Node feature shapes: {node_feat_shapes}")
+    print(f"Label shapes: {label_shapes}")
+
+
+
 def plot_graph(data, output_path="graph.png"):
     """
     Plot the PyTorch Geometric graph using NetworkX and Matplotlib.
@@ -127,4 +164,3 @@ def plot_graph(data, output_path="graph.png"):
     plt.savefig(output_path, bbox_inches='tight')
     plt.show()
     print(f"Graph plot saved to {output_path}")
-
