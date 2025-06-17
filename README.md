@@ -1,6 +1,5 @@
 <h1 align="center">🧬 Unsupervised piRNA Generation Using Graph Neural Networks</h1>
 
-
 ## 📌 Description
 
 This project explores an unsupervised learning framework for modeling and generating piRNA sequences using Graph Neural Networks (GNNs). It treats piRNA sequences as linear graphs where each nucleotide is a node and edges represent the backbone connectivity. The ultimate goal is to enable **graph-based generation of valid and diverse piRNA sequences**.
@@ -15,12 +14,16 @@ This project explores an unsupervised learning framework for modeling and genera
 - ✔️ **PyTorch Geometric Dataset Class**: Created a custom `InMemoryDataset` to efficiently store and retrieve graph data.
 - ✔️ **Dataset Stats Logging**: Summary of dataset composition and piRNA filtering statistics are printed for verification.
 - ✔️ **Sample Graph Visualization**: One of the sequence graphs is plotted using NetworkX + Matplotlib.
+- ✔️ **Graph Embedding Model (GCN + Pooling)**: Implemented a GCN-based model with global pooling to obtain 64-dimensional embeddings from each piRNA graph.
+- ✔️ **Unsupervised Graph-Level Training**: Added a contrastive loss based on the GraphCL paper to train the GCN model in an unsupervised way and learn meaningful representations.
+- ✔️ **Initial Embedding Visualization** *(WIP)*: Currently exploring how graph embeddings evolve during training and whether distinct clusters emerge in latent space.
 
 ---
 
 ## 🧪 What’s Next
 
 - 🧠 Implement a **GraphGAN** for unsupervised piRNA generation.
+- 📊 Visualize learned embeddings to assess clustering and separability.
 - 🔍 Explore **sequence validity** and **biological interpretability** of generated graphs.
 - 🧬 Evaluate generated sequences for properties like length, diversity, and nucleotide distribution.
 - 📈 Compare with baseline sequence models (e.g., RNN-based generation).
